@@ -2,32 +2,32 @@
 #include <stdarg.h>
 #include <stdio.h>
 /**
- * print_numbers - print all the parametres 
- * @separator: the string to be printed between the strings
- * @n: the number of strings passed to the function
+ * print_strings - Entry Point
+ * @separator: comma space
+ * @n: number of elements
  * Return: void
  */
 void print_strings(const char *separator, const unsigned int n, ...)
 {
+	char *sep, *ptr;
 	unsigned int i;
-	va_list strings;
-	char *string;
+	va_list list;
 
-	va_start(strings, n);
+	if (separator == NULL || *separator == 0)
+		sep = "";
+	else
+		sep = (char *) separator;
+	va_start(list, n);
 
-	i = 0;
-	while (i < n)
+	if (n > 0)
+		printf("%s", va_arg(list, char *));
+	for (i = 1; i < n; i++)
 	{
-		string = va_arg(strings, char*);
-		if (string == NULL)
-			printf("(nil)");
-		else
-			printf("%s", string);
-		if (i != (n - 1) && separator != NULL)
-			printf("%s", separator);
-		i++;
+		ptr = va_arg(list, char*);
+		if (ptr == NULL)
+			ptr = "(nil)";
+		printf("%s%s", sep, ptr);
 	}
 	printf("\n");
-
-	va_end(strings);
+	va_end(list);
 }
