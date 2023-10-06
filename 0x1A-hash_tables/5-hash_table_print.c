@@ -1,30 +1,38 @@
 #include "hash_tables.h"
 
 /**
- * hash_table_print - function to print all key/value pairs in order
- * @ht: hash table to print
+ * hash_table_print - Prints a hash table.
+ * @ht: A pointer to the hash table to print.
  *
+ * Description: Key/value pairs are printed in the order
+ *              they appear in the array of the hash table.
  */
-
 void hash_table_print(const hash_table_t *ht)
 {
-	hash_node_t *mover;
-	unsigned long int i = 0, check = 0;
+	hash_node_t *node;
+	unsigned long int i;
+	unsigned char comma_flag = 0;
 
 	if (ht == NULL)
 		return;
+
 	printf("{");
 	for (i = 0; i < ht->size; i++)
 	{
-		mover = ht->array[i];
-		while (mover != NULL)
+		if (ht->array[i] != NULL)
 		{
-			if (check)
+			if (comma_flag == 1)
 				printf(", ");
-			printf("\'%s\': ", mover->key);
-			printf("\'%s\'", mover->value);
-			check = 1;
-			mover = mover->next;
+
+			node = ht->array[i];
+			while (node != NULL)
+			{
+				printf("'%s': '%s'", node->key, node->value);
+				node = node->next;
+				if (node != NULL)
+					printf(", ");
+			}
+			comma_flag = 1;
 		}
 	}
 	printf("}\n");
